@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.search.SearchView;
+import com.google.android.material.search.SearchBar;
+import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private RecipeAdapter adapter;
     private AppDatabase db;
     private List<RecipeWithCategory> allRecipes = new ArrayList<>();
+    private String currentSearchQuery = "";
+    private boolean currentFilterFavs = false;
+    private String currentCategory = "All";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,19 +91,72 @@ public class MainActivity extends AppCompatActivity {
             );
             categoryDropdown.setAdapter(arrayAdapter);
         });
+
+        SearchView searchView = findViewById(R.id.search_view);
+        SearchBar searchBar = findViewById(R.id.search_bar);
+        searchView.setupWithSearchBar(searchBar);
+        searchView.getEditText().addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                currentSearchQuery = s.toString();
+                applyFilters();
+            }
+            @Override
+            public void afterTextChanged(android.text.Editable s) {}
+        });
+        
+        searchView.getEditText().setOnEditorActionListener((v, actionId, event) -> {
+            searchBar.setText(searchView.getText());
+            searchView.hide();
+            return false;
+        });
+
+        Chip chipFavorites = findViewById(R.id.chip_favorites);
+        chipFavorites.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            currentFilterFavs = isChecked;
+            applyFilters();
+        });
+
+        categoryDropdown.setOnItemClickListener((parent, view, position, id) -> {
+            currentCategory = (String) parent.getItemAtPosition(position);
+            applyFilters();
+        });
+    }
+
+    private void applyFilters() {
+        List<RecipeWithCategory> filtered = new ArrayList<>();
+        String query = currentSearchQuery.toLowerCase().trim();
+        for (RecipeWithCategory item : allRecipes) {
+            if (currentFilterFavs && !item.recipe.isFavorite()) continue;
+            
+            if (!currentCategory.equals("All")) {
+                String catName = item.category != null ? item.category.getName() : "Uncategorized";
+                if (!catName.equals(currentCategory)) continue;
+            }
+            
+            if (!query.isEmpty()) {
+                if (!item.recipe.getTitle().toLowerCase().startsWith(query)) continue;
+            }
+            
+            filtered.add(item);
+        }
+        adapter.setRecipes(filtered);
     }
 
     private void loadRecipes() {
         db.recipeDao().getAllRecipesWithCategory().observe(this, recipes -> {
             allRecipes = recipes;
-            adapter.setRecipes(allRecipes);
+            applyFilters();
         });
     }
 
     private void setupFab() {
         FloatingActionButton fab = findViewById(R.id.add_recipe);
         fab.setOnClickListener(v -> {
-            Toast.makeText(this, "Add recipe coming soon!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, AddRecipeActivity.class);
+            startActivity(intent);
         });
     }
 }

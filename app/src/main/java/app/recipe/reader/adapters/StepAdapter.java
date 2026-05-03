@@ -43,7 +43,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         return steps.size();
     }
 
-    static class StepViewHolder extends RecyclerView.ViewHolder {
+    public static class StepViewHolder extends RecyclerView.ViewHolder {
         TextView stepNumber;
         TextView stepDescription;
 

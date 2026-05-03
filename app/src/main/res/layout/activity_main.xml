@@ -98,4 +98,11 @@
         android:contentDescription="Add new recipe"
         app:srcCompat="@android:drawable/ic_input_add" />
 
+    <com.google.android.material.search.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="Search recipes..."
+        app:layout_anchor="@id/search_bar" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

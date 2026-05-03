@@ -75,6 +75,32 @@ public abstract class AppDatabase extends RoomDatabase {
                     new RecipeStep((int) recipeId3, 2, "Add eggs and flour, stir until combined."),
                     new RecipeStep((int) recipeId3, 3, "Bake at 180°C for 25 minutes.")
                 ));
+
+                long testId = dao.insertRecipe(new Recipe("test", 1000000, null));
+                dao.insertSteps(Arrays.asList(
+                    new RecipeStep((int) testId, 1, "testtesttesttesttesttesttesttesttesttesttesttest"),
+                    new RecipeStep((int) testId, 2, "test"),
+                    new RecipeStep((int) testId, 3, "test"),
+                    new RecipeStep((int) testId, 4, "test"),
+                    new RecipeStep((int) testId, 5, "test"),
+                    new RecipeStep((int) testId, 6, "test"),
+                    new RecipeStep((int) testId, 7, "test"),
+                    new RecipeStep((int) testId, 8, "test"),
+                    new RecipeStep((int) testId, 9, "test"),
+                    new RecipeStep((int) testId, 10, "test"),
+                    new RecipeStep((int) testId, 11, "test"),
+                    new RecipeStep((int) testId, 12, "test"),
+                    new RecipeStep((int) testId, 13, "test")
+                ));
+                dao.insertRecipe(new Recipe("test", 1000000, null));
+                dao.insertRecipe(new Recipe("test", 1000000, null));
+                dao.insertRecipe(new Recipe("test", 1000000, null));
+                dao.insertRecipe(new Recipe("test", 1000000, null));
+                dao.insertRecipe(new Recipe("test", 1000000, null));
+                dao.insertRecipe(new Recipe("test", 1000000, null));
+                dao.insertRecipe(new Recipe("test", 1000000, null));
+                dao.insertRecipe(new Recipe("test", 1000000, null));
+                dao.insertRecipe(new Recipe("test", 1000000, null));
             });
         }
     };

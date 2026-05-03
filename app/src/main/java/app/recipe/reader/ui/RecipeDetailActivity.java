@@ -95,6 +95,14 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
     private void deleteRecipe() {
         int recipeId = getIntent().getIntExtra(EXTRA_RECIPE_ID, -1);
-        Toast.makeText(this, "Delete functionality to be implemented", Toast.LENGTH_SHORT).show();
+        if (recipeId == -1) return;
+
+        AppDatabase.databaseExecutor.execute(() -> {
+            db.recipeDao().deleteRecipeById(recipeId);
+            runOnUiThread(() -> {
+                Toast.makeText(RecipeDetailActivity.this, "Recipe deleted!", Toast.LENGTH_SHORT).show();
+                finish();
+            });
+        });
     }
 }

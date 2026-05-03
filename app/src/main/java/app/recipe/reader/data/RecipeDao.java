@@ -38,6 +38,9 @@ public interface RecipeDao {
     @Delete
     void deleteRecipe(Recipe recipe);
 
+    @Query("DELETE FROM recipes WHERE id = :recipeId")
+    void deleteRecipeById(int recipeId);
+
     @Insert
     long insertCategory(Category category);
 
