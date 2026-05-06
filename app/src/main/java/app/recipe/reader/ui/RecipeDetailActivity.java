@@ -13,6 +13,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -66,7 +68,14 @@ public class RecipeDetailActivity extends AppCompatActivity {
     private void setupButtons() {
         FloatingActionButton fab = findViewById(R.id.fab_hands_free);
         fab.setOnClickListener(v -> {
-            Toast.makeText(this, "Hands-free mode coming soon!", Toast.LENGTH_SHORT).show();
+            int recipeId = getIntent().getIntExtra(EXTRA_RECIPE_ID, -1);
+            String title = getIntent().getStringExtra(EXTRA_RECIPE_TITLE);
+            if (recipeId != -1) {
+                Intent intent = new Intent(this, HandsFreeActivity.class);
+                intent.putExtra(EXTRA_RECIPE_ID, recipeId);
+                intent.putExtra(EXTRA_RECIPE_TITLE, title);
+                startActivity(intent);
+            }
         });
 
         ImageButton btnBluetooth = findViewById(R.id.btn_bluetooth);

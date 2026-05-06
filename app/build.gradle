@@ -41,6 +41,9 @@ dependencies {
     implementation libs.room.runtime
     annotationProcessor libs.room.compiler
 
+    implementation 'net.java.dev.jna:jna:5.13.0@aar'
+    implementation 'com.alphacephei:vosk-android:0.3.75'
+
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
