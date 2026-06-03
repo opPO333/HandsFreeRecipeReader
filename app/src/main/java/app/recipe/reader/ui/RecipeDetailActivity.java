@@ -35,7 +35,16 @@ public class RecipeDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        androidx.activity.EdgeToEdge.enable(this);
+        
         setContentView(R.layout.activity_recipe_detail);
+
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.detail_main), (v, insets) -> {
+            androidx.core.graphics.Insets systemBars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         db = AppDatabase.getInstance(this);
 
@@ -80,7 +89,14 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
         ImageButton btnBluetooth = findViewById(R.id.btn_bluetooth);
         btnBluetooth.setOnClickListener(v -> {
-            Toast.makeText(this, "Bluetooth setup coming soon!", Toast.LENGTH_SHORT).show();
+            int recipeId = getIntent().getIntExtra(EXTRA_RECIPE_ID, -1);
+            if (recipeId != -1) {
+                Intent intent = new Intent(this, BluetoothShareActivity.class);
+                intent.putExtra(BluetoothShareActivity.EXTRA_RECIPE_ID, recipeId);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Cannot share this recipe!", Toast.LENGTH_SHORT).show();
+            }
         });
 
         ImageButton btnDelete = findViewById(R.id.btn_delete);

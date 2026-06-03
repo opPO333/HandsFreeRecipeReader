@@ -92,15 +92,6 @@ public abstract class AppDatabase extends RoomDatabase {
                     new RecipeStep((int) testId, 12, "test"),
                     new RecipeStep((int) testId, 13, "test")
                 ));
-                dao.insertRecipe(new Recipe("test", 1000000, null));
-                dao.insertRecipe(new Recipe("test", 1000000, null));
-                dao.insertRecipe(new Recipe("test", 1000000, null));
-                dao.insertRecipe(new Recipe("test", 1000000, null));
-                dao.insertRecipe(new Recipe("test", 1000000, null));
-                dao.insertRecipe(new Recipe("test", 1000000, null));
-                dao.insertRecipe(new Recipe("test", 1000000, null));
-                dao.insertRecipe(new Recipe("test", 1000000, null));
-                dao.insertRecipe(new Recipe("test", 1000000, null));
             });
         }
     };

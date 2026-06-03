@@ -37,7 +37,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        androidx.activity.EdgeToEdge.enable(this);
+        
         setContentView(R.layout.activity_main);
+
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            androidx.core.graphics.Insets systemBars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         db = AppDatabase.getInstance(this);
 
@@ -156,6 +165,12 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.add_recipe);
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddRecipeActivity.class);
+            startActivity(intent);
+        });
+
+        FloatingActionButton btnReceiveBluetooth = findViewById(R.id.btn_receive_bluetooth);
+        btnReceiveBluetooth.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, BluetoothShareActivity.class);
             startActivity(intent);
         });
     }

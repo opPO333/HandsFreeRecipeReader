@@ -44,7 +44,16 @@ public class HandsFreeActivity extends AppCompatActivity implements VoiceCommand
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        androidx.activity.EdgeToEdge.enable(this);
+        
         setContentView(R.layout.activity_hands_free);
+
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.hands_free_main), (v, insets) -> {
+            androidx.core.graphics.Insets systemBars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         if (savedInstanceState != null) {
             currentStepIndex = savedInstanceState.getInt(STATE_STEP_INDEX, 0);
